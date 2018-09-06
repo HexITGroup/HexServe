@@ -1,0 +1,14 @@
+.dub
+docs.json
+__dummy.html
+docs/
+hexserve.so
+hexserve.dylib
+hexserve.dll
+hexserve.a
+hexserve.lib
+hexserve-test-*
+*.exe
+*.o
+*.obj
+*.lst

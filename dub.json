@@ -1,0 +1,12 @@
+{
+	"name": "hexserve",
+	"authors": [
+		"HexIT"
+	],
+	"dependencies": {
+		"vibe-d": "~>0.8.4"
+	},
+	"description": "Small web server for the HexIT community.",
+	"copyright": "Copyright © 2018, HexIT",
+	"license": "MIT"
+}
