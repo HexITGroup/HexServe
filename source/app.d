@@ -22,11 +22,12 @@ void main()
 	try {
 		ServerSettings settings = deserializeFile("/var/hexconf.json");
 
-		auto httpsettings = new HTTPServerSettings;
-		httpsettings.port = settings.port;
-		httpsettings.bindAddresses = settings.urlBindings;
+		
+		// Create router
 		auto router = new URLRouter;
 		router.get("/", ((req, res){ res.redirect("/index.html"); }));
+
+		// create routings for the redirects.
 		foreach(k, r; settings.redirects) {
 			foreach(rd; r.origins) {
 				router.get(rd, ((req, res){ res.redirect(k); }));
@@ -34,6 +35,10 @@ void main()
 		}
 		router.get("*", serveStaticFiles("/var/www/"));
 
+		// Set up HTTP settings and start HTTP server.
+		auto httpsettings = new HTTPServerSettings;
+		httpsettings.port = settings.port;
+		httpsettings.bindAddresses = settings.urlBindings;
 		listenHTTP(httpsettings, router);
 	} catch (Exception ex) {
 		writeln(ex.message);

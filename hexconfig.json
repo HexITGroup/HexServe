@@ -1,0 +1,9 @@
+{
+	"port": 80,
+	"urlBindings": ["::1", "127.0.0.1"],
+	"redirects": {
+		"/index.html": {
+			"origins": ["/"]
+		}
+	}
+}
