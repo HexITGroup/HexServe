@@ -4,7 +4,8 @@
 		"HexIT"
 	],
 	"dependencies": {
-		"vibe-d": "~>0.8.4"
+		"vibe-d": "~>0.8.4",
+		"asdf": "~>0.2.4"
 	},
 	"description": "Small web server for the HexIT community.",
 	"copyright": "Copyright © 2018, HexIT",
