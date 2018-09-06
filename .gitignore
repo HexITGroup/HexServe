@@ -12,3 +12,4 @@ hexserve-test-*
 *.o
 *.obj
 *.lst
+hexserve
