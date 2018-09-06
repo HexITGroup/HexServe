@@ -1,14 +1,16 @@
 module settings;
 import asdf;
 
-public ServerSettings deserializeFile(string fileName) {
+ServerSettings deserializeFile(string fileName) {
 	import std.file;
+	if (!exists(fileName)) throw new Exception("No configuration file found in /var/hexconf.json!");
 	return readText(fileName).deserialize!ServerSettings;
 }
 
 struct ServerSettings {
-	Redirect[string] redirects;
+	ushort port;
 	string[] urlBindings;
+	Redirect[string] redirects;
 }
 
 struct Redirect {

@@ -4,7 +4,7 @@
 		"HexIT"
 	],
 	"dependencies": {
-		"vibe-d": "~>0.8.4",
+		"vibe-d": "~master",
 		"vibe-d:tls": "~master",
 		"asdf": "~>0.2.4"
 	},

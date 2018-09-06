@@ -5,9 +5,9 @@ import vibe.http.router;
 import settings;
 
 /**
-	Enable exception throwing on major errors on Linux.
+	Enable exception throwing on major memory failures on Linux.
 */
-void enableExceptions() {
+void enableMemExceptions() {
 	import etc.linux.memoryerror;
 	static if (is(typeof(registerMemoryErrorHandler)))
 		registerMemoryErrorHandler();
@@ -16,17 +16,26 @@ void enableExceptions() {
 void main()
 {
 	version(linux) {
-		enableExceptions();
+		enableMemExceptions();
 	}
 
-	auto settings = new HTTPServerSettings;
-	settings.port = 80;
-	settings.bindAddresses = ["::1", "127.0.0.1"];
+	try {
+		ServerSettings settings = deserializeFile("/var/hexconf.json");
 
-	auto router = new URLRouter;
-	router.get("/", ((req, res){ res.redirect("/index.html"); }));
+		auto httpsettings = new HTTPServerSettings;
+		httpsettings.port = settings.port;
+		httpsettings.bindAddresses = settings.urlBindings;
+		auto router = new URLRouter;
+		router.get("/", ((req, res){ res.redirect("/index.html"); }));
+		foreach(k, r; settings.redirects) {
+			foreach(rd; r.origins) {
+				router.get(rd, ((req, res){ res.redirect(k); }));
+			}
+		}
+		router.get("*", serveStaticFiles("/var/www/"));
 
-	router.get("*", serveStaticFiles("/var/www/"));
-
-	listenHTTP(settings, router);
+		listenHTTP(httpsettings, router);
+	} catch (Exception ex) {
+		writeln(ex.message);
+	}
 }
